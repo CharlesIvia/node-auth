@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv/config");
 
 const app = express();
 
@@ -10,8 +11,7 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 // database connection
-const dbURI =
-  "mongodb+srv://chuck:chuck123@cluster0.afaok.mongodb.net/node-auth?retryWrites=true&w=majority";
+const dbURI = process.env.DB_URI;
 mongoose
   .connect(dbURI, {
     useNewUrlParser: true,
