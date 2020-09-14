@@ -9,6 +9,13 @@ const handleErrors = (err) => {
     password: "",
   };
 
+  //Duplicate error code
+
+  if (err.code === 11000) {
+    errors.email = "That email is already registered.";
+    return errors;
+  }
+
   //Validatiom errors
 
   if (err.message.includes("user validation failed")) {
