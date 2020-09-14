@@ -1,2 +1,2 @@
 # node-auth
-Node and express authentication with with JASON web tokens.
+Node and express authentication with with JSON web tokens.
