@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { isEmail } = require("validator");
+const bcrypt = require("bcrypt");
 
 //Create a schema
 
@@ -19,17 +20,11 @@ const userSchema = new mongoose.Schema({
 });
 
 //mongoose hooks
-//fire a fn aster a doc is saved to db
+//fire a fn before a doc is saved to db
 
-userSchema.post("save", function (doc, next) {
-  console.log("New user was created", doc);
-  next();
-});
-
-//fire a fn b4 a doc is saved to db
-
-userSchema.pre("save", function (next) {
-  console.log("User about to be created", this);
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
