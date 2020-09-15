@@ -18,6 +18,21 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+//mongoose hooks
+//fire a fn aster a doc is saved to db
+
+userSchema.post("save", function (doc, next) {
+  console.log("New user was created", doc);
+  next();
+});
+
+//fire a fn b4 a doc is saved to db
+
+userSchema.pre("save", function (next) {
+  console.log("User about to be created", this);
+  next();
+});
+
 const User = mongoose.model("user", userSchema); //first arg must be singular of collection in the db
 
 module.exports = User;
