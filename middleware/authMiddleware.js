@@ -25,26 +25,23 @@ const requireAuth = (req, res, next) => {
 
 //check current user
 
+// check current user
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
-
   if (token) {
     jwt.verify(token, SECRET, async (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
-        req.locals.user = null;
+        res.locals.user = null;
         next();
       } else {
-        console.log(decodedToken);
         let user = await User.findById(decodedToken.id);
         res.locals.user = user;
         next();
       }
     });
   } else {
-    req.locals.user = null;
+    res.locals.user = null;
     next();
   }
 };
-
 module.exports = { requireAuth, checkUser };
