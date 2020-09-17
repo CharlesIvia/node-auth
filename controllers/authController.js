@@ -12,9 +12,19 @@ const handleErrors = (err) => {
     password: "",
   };
 
-  //Duplicate error code
+  //incorrect email
 
+  if (err.message === "Incorrect email!") {
+    errors.email = " Email is not registered!";
+  }
+
+  //Incorrect password
+  if (err.message === "Incorrect password!") {
+    errors.password = "Please enter a correct password!";
+  }
   if (err.code === 11000) {
+    //Duplicate error code
+
     errors.email = "That email is already registered.";
     return errors;
   }
@@ -71,6 +81,7 @@ module.exports.login_post = async (req, res) => {
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
   } catch (error) {
-    res.status(400).json({});
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 };
